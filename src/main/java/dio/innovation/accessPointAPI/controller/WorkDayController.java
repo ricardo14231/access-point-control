@@ -41,7 +41,7 @@ public class WorkDayController {
     public ResponseEntity<List<WorkDayDTO>> listAllWorkDay() {
         try {
             return new ResponseEntity<>(workDayService.listAllWorkDay(), HttpStatus.OK);
-        }catch (Exception err) {
+        }catch (ElementNotFoundException err) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
@@ -62,7 +62,7 @@ public class WorkDayController {
             String response = workDayService.deleteWorkDay(id);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }catch (ElementNotFoundException err) {
-            return new ResponseEntity<>(err.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(err.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 }

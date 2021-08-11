@@ -33,7 +33,7 @@ public class CompanyController {
         try {
             return new ResponseEntity<>(companyService.findCompanyById(id), HttpStatus.OK);
         }catch (ElementNotFoundException err) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -41,8 +41,8 @@ public class CompanyController {
     public ResponseEntity<List<CompanyDTO>> listAllCompany() {
         try {
             return new ResponseEntity<>(companyService.listAllCompany(), HttpStatus.OK);
-        }catch (Exception err) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }catch (ElementNotFoundException err) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -61,8 +61,8 @@ public class CompanyController {
         try {
             String response = companyService.deleteCompany(id);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (Exception err) {
-            return new ResponseEntity<>(err.getMessage(), HttpStatus.BAD_REQUEST);
+        }catch (ElementNotFoundException err) {
+            return new ResponseEntity<>(err.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 }
