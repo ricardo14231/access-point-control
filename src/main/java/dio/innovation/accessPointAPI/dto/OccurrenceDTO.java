@@ -1,30 +1,27 @@
-package dio.innovation.accessPointAPI.model;
+package dio.innovation.accessPointAPI.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-@Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OccurrenceModel {
+public class OccurrenceDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 50)
+    @NotEmpty
+    @Size(max = 50)
     private String name;
 
-    @Column
     private String description;
 
-    @Column
     private LocalDateTime createAt;
 }
