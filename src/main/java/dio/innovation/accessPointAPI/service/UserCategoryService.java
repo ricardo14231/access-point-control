@@ -39,6 +39,8 @@ public class UserCategoryService {
     }
 
     public String updateUserCategory(Long id, UserCategoryDTO userCategoryDTO) {
+        verifyIfExists(id);
+
         UserCategoryModel userCategoryToUpdate = userCategoryMapper.toModel(userCategoryDTO);
         Long idUserCategoryToUpdate = userCategoryRepository.save(userCategoryToUpdate).getId();
         return MessageResponse.messageObjUpdate(idUserCategoryToUpdate, "Categoria");

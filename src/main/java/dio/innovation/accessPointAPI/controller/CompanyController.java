@@ -1,7 +1,6 @@
 package dio.innovation.accessPointAPI.controller;
 
 import dio.innovation.accessPointAPI.dto.CompanyDTO;
-import dio.innovation.accessPointAPI.exceptions.ElementNotFoundException;
 import dio.innovation.accessPointAPI.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,49 +19,29 @@ public class CompanyController {
 
     @PostMapping("/create")
     public ResponseEntity<String> createCompany(@RequestBody @Valid CompanyDTO companyDTO) {
-       try {
-            String response = companyService.createCompany(companyDTO);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-       }catch (Exception err) {
-            return new ResponseEntity<>(err.getMessage(), HttpStatus.BAD_REQUEST);
-       }
+        String response = companyService.createCompany(companyDTO);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CompanyDTO> findCompanyById(@PathVariable Long id) {
-        try {
-            return new ResponseEntity<>(companyService.findCompanyById(id), HttpStatus.OK);
-        }catch (ElementNotFoundException err) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(companyService.findCompanyById(id), HttpStatus.OK);
     }
 
     @GetMapping("/list")
     public ResponseEntity<List<CompanyDTO>> listAllCompany() {
-        try {
-            return new ResponseEntity<>(companyService.listAllCompany(), HttpStatus.OK);
-        }catch (ElementNotFoundException err) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(companyService.listAllCompany(), HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateCompany(@PathVariable Long id, @RequestBody @Valid CompanyDTO companyDTO) {
-        try {
-            String response = companyService.updateCompany(id, companyDTO);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (Exception err) {
-            return new ResponseEntity<>(err.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+        String response = companyService.updateCompany(id, companyDTO);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteCompany(@PathVariable Long id) {
-        try {
-            String response = companyService.deleteCompany(id);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (ElementNotFoundException err) {
-            return new ResponseEntity<>(err.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        String response = companyService.deleteCompany(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -1,7 +1,6 @@
 package dio.innovation.accessPointAPI.controller;
 
 import dio.innovation.accessPointAPI.dto.OccurrenceDTO;
-import dio.innovation.accessPointAPI.exceptions.ElementNotFoundException;
 import dio.innovation.accessPointAPI.service.OccurrenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,49 +19,29 @@ public class OccurrenceController {
 
     @PostMapping("/create")
     public ResponseEntity<String> createOccurrence(@RequestBody @Valid OccurrenceDTO occurrenceDTO) {
-        try {
-            String response = occurrenceService.createOccurrence(occurrenceDTO);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (Exception err) {
-            return new ResponseEntity<>(err.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+        String response = occurrenceService.createOccurrence(occurrenceDTO);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<OccurrenceDTO> findOccurrenceById(@PathVariable Long id) {
-        try {
-            return new ResponseEntity<>(occurrenceService.findOccurenceById(id), HttpStatus.OK);
-        }catch (ElementNotFoundException err) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(occurrenceService.findOccurenceById(id), HttpStatus.OK);
     }
 
     @GetMapping("/list")
     public ResponseEntity<List<OccurrenceDTO>> listAllOccurrence() {
-        try {
-            return new ResponseEntity<>(occurrenceService.listAllOccurrence(), HttpStatus.OK);
-        }catch (ElementNotFoundException err) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(occurrenceService.listAllOccurrence(), HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateOccurrence(@PathVariable Long id, @RequestBody @Valid OccurrenceDTO occurrenceDTO) {
-        try {
-            String response = occurrenceService.updateOccurrence(id, occurrenceDTO);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (Exception err) {
-            return new ResponseEntity<>(err.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+        String response = occurrenceService.updateOccurrence(id, occurrenceDTO);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteOccurrence(@PathVariable Long id) {
-        try {
-            String response = occurrenceService.deleteOccurrence(id);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        }catch (ElementNotFoundException err) {
-            return new ResponseEntity<>(err.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        String response = occurrenceService.deleteOccurrence(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
