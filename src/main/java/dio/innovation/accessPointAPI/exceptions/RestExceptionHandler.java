@@ -26,8 +26,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                         .builder()
                         .title(exception.getMessage())
                         .status(HttpStatus.NOT_FOUND.value())
-                        .details("Not found.")
-                        .timestamp(LocalDateTime.now())
+                        .details("Item não encontrado.")
+                        .timestamp(LocalDateTime.now()  )
                         .build(),
                 HttpStatus.NOT_FOUND
         );
@@ -42,10 +42,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(
                 ValidationFieldsExceptionsDetails.builder()
-                        .title("Bad Request Exception. Invalid Field(s).")
+                        .title("Bad Request Exception. Campo(s) Inválido(s).")
                         .status(HttpStatus.BAD_REQUEST.value())
                         .timestamp(LocalDateTime.now())
-                        .details("Check the fields.")
+                        .details("Verifique os campos.")
                         .fields(fields)
                         .fieldsMessage(fieldMessage)
                         .build(),
@@ -59,7 +59,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ExceptionDetails exceptionDetails = ExceptionDetails.builder()
                 .title(exception.getMessage())
                 .status(HttpStatus.BAD_REQUEST.value())
-                .details("Malformed JSON request.")
+                .details("Erro no formato do JSON.")
                 .timestamp(LocalDateTime.now())
                 .build();
         return new ResponseEntity(exceptionDetails, headers, status);
