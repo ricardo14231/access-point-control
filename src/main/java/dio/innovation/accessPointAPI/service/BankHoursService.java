@@ -26,7 +26,7 @@ public class BankHoursService {
         return MessageResponse.messageObjCreate(id, "Banco de horas");
     }
 
-    public BankHoursDTO findBankHoursById(Long id) {
+    public BankHoursDTO findBankHoursById(BankHoursModel.IdBankHoursModel id) {
         return bankHoursMapper.toDTO(verifyIfExists(id));
     }
 
@@ -36,22 +36,22 @@ public class BankHoursService {
                 .collect(Collectors.toList());
     }
 
-    public String updateBankHours(Long id, BankHoursDTO bankHoursDTO) {
+    public String updateBankHours(BankHoursModel.IdBankHoursModel id, BankHoursDTO bankHoursDTO) {
         verifyIfExists(id);
         bankHoursRepository.save( bankHoursMapper.toModel(bankHoursDTO));
 
-        return MessageResponse.messageObjUpdate(id, "Banco de horas");
+        return MessageResponse.messageObjUpdate(id.getIdBankHours(), "Banco de horas");
     }
 
-    public String deleteBankHours(Long id) {
+    public String deleteBankHours(BankHoursModel.IdBankHoursModel id) {
         verifyIfExists(id);
 
         bankHoursRepository.deleteById(id);
-        return MessageResponse.messageObjDelete(id, "Banco de horas");
+        return MessageResponse.messageObjDelete(id.getIdBankHours(), "Banco de horas");
     }
 
-    private BankHoursModel verifyIfExists(Long id) {
+    private BankHoursModel verifyIfExists(BankHoursModel.IdBankHoursModel id) {
         return bankHoursRepository.findById(id)
-                .orElseThrow(() -> new ElementNotFoundException(id, "Banco de horas"));
+                .orElseThrow(() -> new ElementNotFoundException(id.getIdBankHours(), "Banco de horas"));
     }
 }

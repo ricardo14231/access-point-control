@@ -5,7 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -22,14 +24,14 @@ public class BankHoursModel {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public class IdBanckHoursModel implements Serializable {
+    public static class IdBankHoursModel implements Serializable {
         private Long idBankHours;
         private Long idMovement;
         private Long idUser;
     }
 
     @EmbeddedId
-    private IdBanckHoursModel id;
+    private IdBankHoursModel id;
 
     private LocalDate dateWorked;
 
@@ -38,4 +40,5 @@ public class BankHoursModel {
     private BigDecimal balanceHoursWorked;
 
     private LocalDateTime createAt;
+
 }

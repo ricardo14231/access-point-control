@@ -8,7 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -18,21 +19,21 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MovementDTO {
 
-    @NotEmpty
+    @NotNull
     private MovementModel.IdMovementModel id;
 
-    @NotEmpty
+    @NotNull
     private LocalDateTime dateEntry;
 
-    @NotEmpty
+    @NotNull
     private LocalDateTime dateExit;
 
-    @NotEmpty
+    @DecimalMin(value = "0.0", inclusive = false)
     private BigDecimal residencePeriod;
 
-    @NotEmpty
+    @NotNull
     private OccurrenceModel occurrence;
 
-    @NotEmpty
+    @NotNull
     private CalendarModel calendar;
 }

@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
@@ -16,7 +16,7 @@ public class LocationDTO {
 
     private Long id;
 
-    @NotEmpty
+    @NotNull
     private AccessLevelModel accessLevel;
 
     private String description;
