@@ -14,7 +14,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.IllegalFormatConversionException;
 import java.util.List;
 import java.util.stream.Collectors;
 
