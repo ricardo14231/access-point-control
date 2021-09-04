@@ -1,6 +1,7 @@
 package dio.innovation.accessPointAPI.service;
 
 import dio.innovation.accessPointAPI.dto.UserDTO;
+import dio.innovation.accessPointAPI.exceptions.ElementIdInconsistencyException;
 import dio.innovation.accessPointAPI.exceptions.ElementNotFoundException;
 import dio.innovation.accessPointAPI.mapper.UserMapper;
 import dio.innovation.accessPointAPI.messageResponse.MessageResponse;
@@ -41,6 +42,7 @@ public class UserService {
     public String updateUser(Long id, UserDTO userDTO) {
 
         verifyIfExists(id);
+        verifyInconsistencyId(id, userDTO.getId());
         userRepository.save(userMapper.toModel(userDTO));
 
         return MessageResponse.messageObjUpdate(id, "Usuário");
@@ -55,5 +57,10 @@ public class UserService {
     private UserModel verifyIfExists(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(id, "Usuário"));
+    }
+
+    private void verifyInconsistencyId(Long idParam, Long idObj) {
+        if(idParam != idObj)
+            throw new ElementIdInconsistencyException();
     }
 }

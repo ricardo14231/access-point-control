@@ -1,6 +1,7 @@
 package dio.innovation.accessPointAPI.service;
 
 import dio.innovation.accessPointAPI.dto.UserCategoryDTO;
+import dio.innovation.accessPointAPI.exceptions.ElementIdInconsistencyException;
 import dio.innovation.accessPointAPI.exceptions.ElementNotFoundException;
 import dio.innovation.accessPointAPI.mapper.UserCategoryMapper;
 import dio.innovation.accessPointAPI.messageResponse.MessageResponse;
@@ -40,6 +41,7 @@ public class UserCategoryService {
 
     public String updateUserCategory(Long id, UserCategoryDTO userCategoryDTO) {
         verifyIfExists(id);
+        verifyInconsistencyId(id, userCategoryDTO.getId());
 
         UserCategoryModel userCategoryToUpdate = userCategoryMapper.toModel(userCategoryDTO);
         Long idUserCategoryToUpdate = userCategoryRepository.save(userCategoryToUpdate).getId();
@@ -56,5 +58,10 @@ public class UserCategoryService {
     private UserCategoryModel verifyIfExists(Long id) {
         return userCategoryRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(id, "Categoria"));
+    }
+
+    private void verifyInconsistencyId(Long idParam, Long idObj) {
+        if(idParam != idObj)
+            throw new ElementIdInconsistencyException();
     }
 }

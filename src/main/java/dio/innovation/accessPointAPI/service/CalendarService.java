@@ -1,6 +1,7 @@
 package dio.innovation.accessPointAPI.service;
 
 import dio.innovation.accessPointAPI.dto.CalendarDTO;
+import dio.innovation.accessPointAPI.exceptions.ElementIdInconsistencyException;
 import dio.innovation.accessPointAPI.exceptions.ElementNotFoundException;
 import dio.innovation.accessPointAPI.mapper.CalendarMapper;
 import dio.innovation.accessPointAPI.messageResponse.MessageResponse;
@@ -38,6 +39,8 @@ public class CalendarService {
 
     public String updateCalendar(Long id, CalendarDTO calendarDTO) {
         verifyIfExists(id);
+        verifyInconsistencyId(id, calendarDTO.getId());
+
         calendarRepository.save( calendarMapper.toModel(calendarDTO));
 
         return MessageResponse.messageObjUpdate(id, "Calendário");
@@ -55,4 +58,8 @@ public class CalendarService {
                 .orElseThrow(() -> new ElementNotFoundException(id, "Calendário"));
     }
 
+    private void verifyInconsistencyId(Long idParam, Long idObj) {
+        if(idParam != idObj)
+            throw new ElementIdInconsistencyException();
+    }
 }

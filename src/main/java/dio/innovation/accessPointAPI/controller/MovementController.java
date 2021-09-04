@@ -1,6 +1,7 @@
 package dio.innovation.accessPointAPI.controller;
 
 import dio.innovation.accessPointAPI.dto.MovementDTO;
+import dio.innovation.accessPointAPI.model.MovementModel;
 import dio.innovation.accessPointAPI.service.MovementService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,7 +43,7 @@ public class MovementController {
     @PutMapping("/update/{id}")
     @ApiOperation("Atualiza a movimentação.")
     public ResponseEntity<String>
-    updateMovement(@PathVariable Long id, @RequestBody @Valid MovementDTO movementDTO) {
+    updateMovement(@PathVariable MovementModel.IdMovementModel id, @RequestBody @Valid MovementDTO movementDTO) {
         String response = movementService.updateMovement(id, movementDTO);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

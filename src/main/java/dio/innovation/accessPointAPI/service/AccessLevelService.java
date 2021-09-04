@@ -1,6 +1,7 @@
 package dio.innovation.accessPointAPI.service;
 
 import dio.innovation.accessPointAPI.dto.AccessLevelDTO;
+import dio.innovation.accessPointAPI.exceptions.ElementIdInconsistencyException;
 import dio.innovation.accessPointAPI.exceptions.ElementNotFoundException;
 import dio.innovation.accessPointAPI.mapper.AccessLevelMapper;
 import dio.innovation.accessPointAPI.messageResponse.MessageResponse;
@@ -38,6 +39,8 @@ public class AccessLevelService {
 
     public String updateAccessLevel(Long id, AccessLevelDTO accessLevelDTO) {
         verifyIfExists(id);
+        verifyInconsistencyId(id, accessLevelDTO.getId());
+
         accessLevelRepository.save( accessLevelMapper.toModel(accessLevelDTO));
 
         return MessageResponse.messageObjUpdate(id, "Nível de acesso");
@@ -53,5 +56,10 @@ public class AccessLevelService {
     private AccessLevelModel verifyIfExists(Long id) {
         return accessLevelRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(id, "Nível de acesso"));
+    }
+
+    private void verifyInconsistencyId(Long idParam, Long idObj) {
+        if(idParam != idObj)
+            throw new ElementIdInconsistencyException();
     }
 }

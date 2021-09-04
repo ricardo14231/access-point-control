@@ -1,6 +1,7 @@
 package dio.innovation.accessPointAPI.service;
 
 import dio.innovation.accessPointAPI.dto.OccurrenceDTO;
+import dio.innovation.accessPointAPI.exceptions.ElementIdInconsistencyException;
 import dio.innovation.accessPointAPI.exceptions.ElementNotFoundException;
 import dio.innovation.accessPointAPI.mapper.OccurrenceMapper;
 import dio.innovation.accessPointAPI.messageResponse.MessageResponse;
@@ -39,6 +40,8 @@ public class OccurrenceService {
 
     public String updateOccurrence(Long id, OccurrenceDTO occurrenceDTO) {
         verifyIfExists(id);
+        verifyInconsistencyId(id, occurrenceDTO.getId());
+
         OccurrenceModel occurrenceToUpdate = occurrenceMapper.toModel(occurrenceDTO);
         occurrenceRepository.save(occurrenceToUpdate);
 
@@ -55,5 +58,10 @@ public class OccurrenceService {
     private OccurrenceModel verifyIfExists(Long id) {
         return occurrenceRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(id, "Ocorrência"));
+    }
+
+    private void verifyInconsistencyId(Long idParam, Long idObj) {
+        if(idParam != idObj)
+            throw new ElementIdInconsistencyException();
     }
 }

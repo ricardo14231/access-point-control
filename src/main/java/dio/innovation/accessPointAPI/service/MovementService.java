@@ -2,6 +2,7 @@ package dio.innovation.accessPointAPI.service;
 
 import dio.innovation.accessPointAPI.dto.CalendarDTO;
 import dio.innovation.accessPointAPI.dto.MovementDTO;
+import dio.innovation.accessPointAPI.exceptions.ElementIdInconsistencyException;
 import dio.innovation.accessPointAPI.exceptions.ElementNotFoundException;
 import dio.innovation.accessPointAPI.mapper.MovementMapper;
 import dio.innovation.accessPointAPI.messageResponse.MessageResponse;
@@ -38,11 +39,14 @@ public class MovementService {
                 .collect(Collectors.toList());
     }
 
-    public String updateMovement(Long id, MovementDTO movementDTO) {
-        verifyIfExists(id);
+    public String updateMovement(MovementModel.IdMovementModel id, MovementDTO movementDTO) {
+        verifyIfExists(id.getIdMovement());
+        verifyInconsistencyId(id.getIdMovement(), movementDTO.getId().getIdMovement());
+        verifyInconsistencyId(id.getIdUser(), movementDTO.getId().getIdUser());
+
         movementRepository.save( movementMapper.toModel(movementDTO));
 
-        return MessageResponse.messageObjUpdate(id, "Movimentação");
+        return MessageResponse.messageObjUpdate(id.getIdMovement(), "Movimentação");
     }
 
     public String deleteMovement(Long id) {
@@ -57,4 +61,8 @@ public class MovementService {
                 .orElseThrow(() -> new ElementNotFoundException(id, "Movimentação"));
     }
 
+    private void verifyInconsistencyId(Long idParam, Long idObj) {
+        if(idParam != idObj)
+            throw new ElementIdInconsistencyException();
+    }
 }

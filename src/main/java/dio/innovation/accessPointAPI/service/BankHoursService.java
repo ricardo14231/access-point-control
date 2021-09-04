@@ -1,6 +1,7 @@
 package dio.innovation.accessPointAPI.service;
 
 import dio.innovation.accessPointAPI.dto.BankHoursDTO;
+import dio.innovation.accessPointAPI.exceptions.ElementIdInconsistencyException;
 import dio.innovation.accessPointAPI.exceptions.ElementNotFoundException;
 import dio.innovation.accessPointAPI.mapper.BankHoursMapper;
 import dio.innovation.accessPointAPI.messageResponse.MessageResponse;
@@ -38,6 +39,10 @@ public class BankHoursService {
 
     public String updateBankHours(BankHoursModel.IdBankHoursModel id, BankHoursDTO bankHoursDTO) {
         verifyIfExists(id);
+        verifyInconsistencyId(id.getIdBankHours(), bankHoursDTO.getId().getIdBankHours());
+        verifyInconsistencyId(id.getIdMovement(), bankHoursDTO.getId().getIdBankHours());
+        verifyInconsistencyId(id.getIdUser(), bankHoursDTO.getId().getIdUser());
+
         bankHoursRepository.save( bankHoursMapper.toModel(bankHoursDTO));
 
         return MessageResponse.messageObjUpdate(id.getIdBankHours(), "Banco de horas");
@@ -53,5 +58,10 @@ public class BankHoursService {
     private BankHoursModel verifyIfExists(BankHoursModel.IdBankHoursModel id) {
         return bankHoursRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(id.getIdBankHours(), "Banco de horas"));
+    }
+
+    private void verifyInconsistencyId(Long idParam, Long idObj) {
+        if(idParam != idObj)
+            throw new ElementIdInconsistencyException();
     }
 }

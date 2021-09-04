@@ -1,6 +1,7 @@
 package dio.innovation.accessPointAPI.service;
 
 import dio.innovation.accessPointAPI.dto.CompanyDTO;
+import dio.innovation.accessPointAPI.exceptions.ElementIdInconsistencyException;
 import dio.innovation.accessPointAPI.exceptions.ElementNotFoundException;
 import dio.innovation.accessPointAPI.mapper.CompanyMapper;
 import dio.innovation.accessPointAPI.messageResponse.MessageResponse;
@@ -40,6 +41,7 @@ public class CompanyService {
 
     public String updateCompany(Long id, CompanyDTO companyDTO) {
         verifyIfExists(id);
+        verifyInconsistencyId(id, companyDTO.getId());
 
         CompanyModel companyToUpdate = companyMapper.toModel(companyDTO);
         Long idCompanyToUpdate = companyRepository.save(companyToUpdate).getId();
@@ -56,5 +58,10 @@ public class CompanyService {
     private CompanyModel verifyIfExists(Long id) {
         return companyRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(id, "Empresa"));
+    }
+
+    private void verifyInconsistencyId(Long idParam, Long idObj) {
+        if(idParam != idObj)
+            throw new ElementIdInconsistencyException();
     }
 }

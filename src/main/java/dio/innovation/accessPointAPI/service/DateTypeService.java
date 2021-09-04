@@ -2,6 +2,7 @@ package dio.innovation.accessPointAPI.service;
 
 import dio.innovation.accessPointAPI.dto.AccessLevelDTO;
 import dio.innovation.accessPointAPI.dto.DateTypeDTO;
+import dio.innovation.accessPointAPI.exceptions.ElementIdInconsistencyException;
 import dio.innovation.accessPointAPI.exceptions.ElementNotFoundException;
 import dio.innovation.accessPointAPI.mapper.DateTypeMapper;
 import dio.innovation.accessPointAPI.messageResponse.MessageResponse;
@@ -40,6 +41,8 @@ public class DateTypeService {
 
     public String updateDateType(Long id, DateTypeDTO dateTypeDTO) {
         verifyIfExists(id);
+        verifyInconsistencyId(id, dateTypeDTO.getId());
+
         dateTypeRepository.save( dateTypeMapper.toModel(dateTypeDTO));
 
         return MessageResponse.messageObjUpdate(id, "Tipo data");
@@ -57,4 +60,8 @@ public class DateTypeService {
                 .orElseThrow(() -> new ElementNotFoundException(id, "tipo data"));
     }
 
+    private void verifyInconsistencyId(Long idParam, Long idObj) {
+        if(idParam != idObj)
+            throw new ElementIdInconsistencyException();
+    }
 }
