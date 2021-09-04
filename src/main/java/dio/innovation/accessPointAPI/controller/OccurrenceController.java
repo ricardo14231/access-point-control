@@ -4,6 +4,7 @@ import dio.innovation.accessPointAPI.dto.OccurrenceDTO;
 import dio.innovation.accessPointAPI.service.OccurrenceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("occurrence")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Api("Endpoint ocorrência.")
 public class OccurrenceController {
 
-    @Autowired
-    private OccurrenceService occurrenceService;
+    private final OccurrenceService occurrenceService;
 
     @PostMapping("/create")
     @ApiOperation("Salva uma nova ocorrência.")

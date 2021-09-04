@@ -7,6 +7,7 @@ import dio.innovation.accessPointAPI.mapper.LocationMapper;
 import dio.innovation.accessPointAPI.messageResponse.MessageResponse;
 import dio.innovation.accessPointAPI.model.LocationModel;
 import dio.innovation.accessPointAPI.repository.LocationRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LocationService {
 
-    private LocationMapper locationMapper = LocationMapper.INSTANCE;
+    private final LocationMapper locationMapper = LocationMapper.INSTANCE;
 
-    @Autowired
-    private LocationRepository locationRepository;
+    private final LocationRepository locationRepository;
 
     public String createLocation(LocationDTO locationDTO) {
         LocationModel locationToSave = locationMapper.toModel(locationDTO);
@@ -59,7 +60,7 @@ public class LocationService {
     }
 
     private void verifyInconsistencyId(Long idParam, Long idObj) {
-        if(idParam != idObj)
+        if(!idParam.equals(idObj))
             throw new ElementIdInconsistencyException();
     }
 }

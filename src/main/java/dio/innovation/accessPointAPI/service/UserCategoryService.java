@@ -7,6 +7,7 @@ import dio.innovation.accessPointAPI.mapper.UserCategoryMapper;
 import dio.innovation.accessPointAPI.messageResponse.MessageResponse;
 import dio.innovation.accessPointAPI.model.UserCategoryModel;
 import dio.innovation.accessPointAPI.repository.UserCategoryRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserCategoryService {
 
     private final UserCategoryMapper userCategoryMapper = UserCategoryMapper.INSTANCE;
 
-    @Autowired
-    private UserCategoryRepository userCategoryRepository;
+    private final UserCategoryRepository userCategoryRepository;
 
     public String createUserCategory(UserCategoryDTO userCategoryDTO) {
         UserCategoryModel userCategoryToSaved = userCategoryMapper.toModel(userCategoryDTO);
@@ -61,7 +62,7 @@ public class UserCategoryService {
     }
 
     private void verifyInconsistencyId(Long idParam, Long idObj) {
-        if(idParam != idObj)
+        if(!idParam.equals(idObj))
             throw new ElementIdInconsistencyException();
     }
 }

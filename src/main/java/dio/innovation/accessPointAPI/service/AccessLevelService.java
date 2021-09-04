@@ -7,6 +7,7 @@ import dio.innovation.accessPointAPI.mapper.AccessLevelMapper;
 import dio.innovation.accessPointAPI.messageResponse.MessageResponse;
 import dio.innovation.accessPointAPI.model.AccessLevelModel;
 import dio.innovation.accessPointAPI.repository.AccessLevelRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AccessLevelService {
 
-    private AccessLevelMapper accessLevelMapper = AccessLevelMapper.INSTANCE;
+    private final AccessLevelMapper accessLevelMapper = AccessLevelMapper.INSTANCE;
 
-    @Autowired
-    private AccessLevelRepository accessLevelRepository;
+    private final AccessLevelRepository accessLevelRepository;
 
     public String createAccessLevel(AccessLevelDTO accessLevelDTO) {
         AccessLevelModel accessLevelToSave = accessLevelMapper.toModel(accessLevelDTO);
@@ -59,7 +60,7 @@ public class AccessLevelService {
     }
 
     private void verifyInconsistencyId(Long idParam, Long idObj) {
-        if(idParam != idObj)
+        if(!idParam.equals(idObj))
             throw new ElementIdInconsistencyException();
     }
 }

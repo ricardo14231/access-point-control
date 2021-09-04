@@ -1,14 +1,13 @@
 package dio.innovation.accessPointAPI.service;
 
-import dio.innovation.accessPointAPI.dto.AccessLevelDTO;
 import dio.innovation.accessPointAPI.dto.DateTypeDTO;
 import dio.innovation.accessPointAPI.exceptions.ElementIdInconsistencyException;
 import dio.innovation.accessPointAPI.exceptions.ElementNotFoundException;
 import dio.innovation.accessPointAPI.mapper.DateTypeMapper;
 import dio.innovation.accessPointAPI.messageResponse.MessageResponse;
-import dio.innovation.accessPointAPI.model.AccessLevelModel;
 import dio.innovation.accessPointAPI.model.DateTypeModel;
 import dio.innovation.accessPointAPI.repository.DateTypeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +15,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DateTypeService {
 
-    DateTypeMapper dateTypeMapper = DateTypeMapper.INSTANCE;
+    private final DateTypeMapper dateTypeMapper = DateTypeMapper.INSTANCE;
 
-    @Autowired
-    private DateTypeRepository dateTypeRepository;
+    private final DateTypeRepository dateTypeRepository;
 
     public String createDateType(DateTypeDTO dateTypeDTO) {
         DateTypeModel dateTypeToSave = dateTypeMapper.toModel(dateTypeDTO);
@@ -61,7 +60,7 @@ public class DateTypeService {
     }
 
     private void verifyInconsistencyId(Long idParam, Long idObj) {
-        if(idParam != idObj)
+        if(!idParam.equals(idObj))
             throw new ElementIdInconsistencyException();
     }
 }

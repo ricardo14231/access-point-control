@@ -7,6 +7,7 @@ import dio.innovation.accessPointAPI.mapper.CompanyMapper;
 import dio.innovation.accessPointAPI.messageResponse.MessageResponse;
 import dio.innovation.accessPointAPI.model.CompanyModel;
 import dio.innovation.accessPointAPI.repository.CompanyRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CompanyService {
 
     private final CompanyMapper companyMapper = CompanyMapper.INSTANCE;
 
-    @Autowired
-    private CompanyRepository companyRepository;
+    private final CompanyRepository companyRepository;
 
     public String createCompany(CompanyDTO companyDTO) {
         CompanyModel companyToSave = companyMapper.toModel(companyDTO);
@@ -61,7 +62,7 @@ public class CompanyService {
     }
 
     private void verifyInconsistencyId(Long idParam, Long idObj) {
-        if(idParam != idObj)
+        if(!idParam.equals(idObj))
             throw new ElementIdInconsistencyException();
     }
 }

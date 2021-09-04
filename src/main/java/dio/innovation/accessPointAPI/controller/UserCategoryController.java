@@ -4,6 +4,7 @@ import dio.innovation.accessPointAPI.dto.UserCategoryDTO;
 import dio.innovation.accessPointAPI.service.UserCategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("userCategory")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Api("Endpoint categoria do usuário.")
 public class UserCategoryController {
 
-    @Autowired
-    private UserCategoryService userCategoryService;
+    private final UserCategoryService userCategoryService;
 
     @PostMapping("/create")
     @ApiOperation("Salva uma nova categoria.")

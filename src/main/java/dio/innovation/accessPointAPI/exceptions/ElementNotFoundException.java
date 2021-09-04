@@ -11,4 +11,8 @@ public class ElementNotFoundException extends NoSuchElementException {
     public ElementNotFoundException(Long id, String typeObject) {
         super(String.format("%s com ID: %o não encontrado(a)!", typeObject, id));
     }
+
+    public ElementNotFoundException(String msg) {
+        super(msg);
+    }
 }

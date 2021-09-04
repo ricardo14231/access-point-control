@@ -7,6 +7,7 @@ import dio.innovation.accessPointAPI.mapper.CalendarMapper;
 import dio.innovation.accessPointAPI.messageResponse.MessageResponse;
 import dio.innovation.accessPointAPI.model.CalendarModel;
 import dio.innovation.accessPointAPI.repository.CalendarRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class CalendarService {
 
-    private CalendarMapper calendarMapper = CalendarMapper.INSTANCE;
+    private final CalendarMapper calendarMapper = CalendarMapper.INSTANCE;
 
-    @Autowired
-    private CalendarRepository calendarRepository;
+    private final CalendarRepository calendarRepository;
 
     public String createCalendar(CalendarDTO calendarDTO) {
         CalendarModel calendarToSave = calendarMapper.toModel(calendarDTO);
@@ -59,7 +60,7 @@ public class CalendarService {
     }
 
     private void verifyInconsistencyId(Long idParam, Long idObj) {
-        if(idParam != idObj)
+        if(!idParam.equals(idObj))
             throw new ElementIdInconsistencyException();
     }
 }

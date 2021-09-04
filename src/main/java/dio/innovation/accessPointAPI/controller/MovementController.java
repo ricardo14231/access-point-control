@@ -1,10 +1,10 @@
 package dio.innovation.accessPointAPI.controller;
 
 import dio.innovation.accessPointAPI.dto.MovementDTO;
-import dio.innovation.accessPointAPI.model.MovementModel;
 import dio.innovation.accessPointAPI.service.MovementService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +14,12 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("movement")
 @Api("Endpoint movimentação.")
 public class MovementController {
 
-    @Autowired
-    private MovementService movementService;
+    private final MovementService movementService;
 
     @PostMapping("/create")
     @ApiOperation("Salva uma nova movimentação.")
@@ -30,7 +30,7 @@ public class MovementController {
 
     @GetMapping("/{id}")
     @ApiOperation("Retorna a movimentação por ID.")
-    public ResponseEntity<MovementDTO> findMovementById(@PathVariable Long id) {
+    public ResponseEntity<MovementDTO> findMovementById(@RequestBody MovementDTO.IdMovementDTO id) {
         return new ResponseEntity<>(movementService.findMovementById(id), HttpStatus.OK);
     }
 
@@ -40,17 +40,17 @@ public class MovementController {
         return new ResponseEntity<>(movementService.listMovement(), HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update")
     @ApiOperation("Atualiza a movimentação.")
     public ResponseEntity<String>
-    updateMovement(@PathVariable MovementModel.IdMovementModel id, @RequestBody @Valid MovementDTO movementDTO) {
-        String response = movementService.updateMovement(id, movementDTO);
+    updateMovement(@RequestBody @Valid MovementDTO movementDTO) {
+        String response = movementService.updateMovement(movementDTO);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete")
     @ApiOperation("Deleta a movimentação.")
-    public ResponseEntity<String> deleteMovement(@PathVariable Long id) {
+    public ResponseEntity<String> deleteMovement(@RequestBody MovementDTO.IdMovementDTO id) {
         String response = movementService.deleteMovement(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

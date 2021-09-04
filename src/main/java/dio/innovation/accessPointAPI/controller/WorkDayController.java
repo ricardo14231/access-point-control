@@ -5,6 +5,7 @@ import dio.innovation.accessPointAPI.exceptions.ElementIdInconsistencyException;
 import dio.innovation.accessPointAPI.service.WorkDayService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +16,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("workDay")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Api("Endpoint jornada de trabalho.")
 public class WorkDayController {
 
-    @Autowired
-    private WorkDayService workDayService;
+    private final WorkDayService workDayService;
 
     @PostMapping("/create")
     @ApiOperation("Salva uma nova jornada.")

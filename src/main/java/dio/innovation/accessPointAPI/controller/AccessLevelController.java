@@ -4,6 +4,7 @@ import dio.innovation.accessPointAPI.dto.AccessLevelDTO;
 import dio.innovation.accessPointAPI.service.AccessLevelService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("accessLevel")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Api("Endpoint nível de acesso.")
 public class AccessLevelController {
 
-    @Autowired
-    private AccessLevelService accessLevelService;
+    private final AccessLevelService accessLevelService;
 
     @PostMapping("/create")
     @ApiOperation("Salva um nível de acesso.")

@@ -7,6 +7,7 @@ import dio.innovation.accessPointAPI.mapper.OccurrenceMapper;
 import dio.innovation.accessPointAPI.messageResponse.MessageResponse;
 import dio.innovation.accessPointAPI.model.OccurrenceModel;
 import dio.innovation.accessPointAPI.repository.OccurrenceRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class OccurrenceService {
 
-    @Autowired
-    private OccurrenceRepository occurrenceRepository;
-
     private final OccurrenceMapper occurrenceMapper = OccurrenceMapper.INSTANCE;
+
+    private final OccurrenceRepository occurrenceRepository;
 
     public String createOccurrence(OccurrenceDTO occurrenceDTO) {
         OccurrenceModel occurrenceToSave = occurrenceMapper.toModel(occurrenceDTO);
@@ -61,7 +62,7 @@ public class OccurrenceService {
     }
 
     private void verifyInconsistencyId(Long idParam, Long idObj) {
-        if(idParam != idObj)
+        if(!idParam.equals(idObj))
             throw new ElementIdInconsistencyException();
     }
 }

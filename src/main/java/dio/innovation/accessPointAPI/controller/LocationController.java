@@ -4,6 +4,7 @@ import dio.innovation.accessPointAPI.dto.LocationDTO;
 import dio.innovation.accessPointAPI.service.LocationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("location")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Api("Endpoint localidade.")
 public class LocationController {
 
-    @Autowired
-    private LocationService locationService;
+    private final LocationService locationService;
 
     @PostMapping("/create")
     @ApiOperation("Salva uma nova localidade.")

@@ -21,7 +21,7 @@ public class MovementModel {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public class IdMovementModel implements Serializable {
+    public static class IdMovementModel implements Serializable {
         private Long idMovement;
         private Long idUser;
     }

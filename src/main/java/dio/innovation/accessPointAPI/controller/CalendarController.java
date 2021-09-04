@@ -4,6 +4,7 @@ import dio.innovation.accessPointAPI.dto.CalendarDTO;
 import dio.innovation.accessPointAPI.service.CalendarService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("calendar")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Api("Endpoint calendário.")
 public class CalendarController {
 
-    @Autowired
-    private CalendarService calendarService;
+    private final CalendarService calendarService;
 
     @PostMapping("/create")
     @ApiOperation("Salva um calendário.")

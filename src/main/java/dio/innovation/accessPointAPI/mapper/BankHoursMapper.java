@@ -11,6 +11,8 @@ public interface BankHoursMapper {
     BankHoursMapper INSTANCE = Mappers.getMapper(BankHoursMapper.class);
 
     BankHoursModel toModel(BankHoursDTO bankHoursDTO);
+    BankHoursModel.IdBankHoursModel toIdModel(BankHoursDTO.IdBankHoursDTO idBankHoursModel);
 
     BankHoursDTO toDTO(BankHoursModel bankHoursModel);
+    BankHoursDTO.IdBankHoursDTO toIdDTO(BankHoursModel.IdBankHoursModel idBankHoursModel);
 }
