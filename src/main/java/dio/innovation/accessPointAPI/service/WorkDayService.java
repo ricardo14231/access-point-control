@@ -1,6 +1,7 @@
 package dio.innovation.accessPointAPI.service;
 
 import dio.innovation.accessPointAPI.dto.WorkDayDTO;
+import dio.innovation.accessPointAPI.exceptions.ElementIdInconsistencyException;
 import dio.innovation.accessPointAPI.exceptions.ElementNotFoundException;
 import dio.innovation.accessPointAPI.mapper.WorkDayMapper;
 import dio.innovation.accessPointAPI.messageResponse.MessageResponse;
@@ -38,6 +39,9 @@ public class WorkDayService {
 
     public String updateWorkDay(Long id, WorkDayDTO workDayDTO) {
         verifyIfExists(id);
+
+        verifyInconsistencyId(id, workDayDTO.getId());
+
         WorkDayModel workDayToUpdate = workDayMapper.toModel(workDayDTO);
         workDayRepository.save(workDayToUpdate);
 
@@ -54,5 +58,10 @@ public class WorkDayService {
     private WorkDayModel verifyIfExists(Long id) {
         return workDayRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(id, "Jornada de trabalho"));
+    }
+
+    private void verifyInconsistencyId(Long idParam, Long idObj) {
+        if(idParam != idObj)
+            throw new ElementIdInconsistencyException();
     }
 }

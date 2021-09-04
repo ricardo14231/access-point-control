@@ -1,6 +1,7 @@
 package dio.innovation.accessPointAPI.controller;
 
 import dio.innovation.accessPointAPI.dto.WorkDayDTO;
+import dio.innovation.accessPointAPI.exceptions.ElementIdInconsistencyException;
 import dio.innovation.accessPointAPI.service.WorkDayService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

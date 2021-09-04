@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.IllegalFormatConversionException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,10 +35,39 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         );
     }
 
+    @ExceptionHandler(ElementIdInconsistencyException.class)
+    protected ResponseEntity<ExceptionDetails> handleElementIdInconsistencyException(ElementIdInconsistencyException exception) {
+        return new ResponseEntity<>(
+                ExceptionDetails
+                        .builder()
+                        .title(exception.getMessage())
+                        .status(HttpStatus.NOT_FOUND.value())
+                        .details("Inconsistência entre o ID do parâmetro e do JSON.")
+                        .timestamp(LocalDateTime.now()  )
+                        .build(),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(SQLException.class)
+    protected ResponseEntity<ExceptionDetails> handleIntegrityConstraintViolationEntity(SQLException exception) {
+        return new ResponseEntity<>(
+                ExceptionDetails
+                        .builder()
+                        .title(exception.getMessage())
+                        .status(HttpStatus.NOT_FOUND.value())
+                        .details("Erro ao persistir os dados.")
+                        .timestamp(LocalDateTime.now()  )
+                        .build(),
+                HttpStatus.NOT_FOUND
+        );
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid
             (MethodArgumentNotValidException exception, HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
         List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
+
         String fields = fieldErrors.stream().map(FieldError::getField).collect(Collectors.joining(", "));
         String fieldMessage = fieldErrors.stream().map(FieldError::getDefaultMessage).collect(Collectors.joining(", "));
 

@@ -21,23 +21,30 @@ public class UserModel {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private UserCategoryModel userCategory;
 
     private String name;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private CompanyModel company;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private AccessLevelModel accessLevel;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private WorkDayModel workDay;
 
+    @Column(nullable = false)
     private BigDecimal tolerance;
 
+    @Column(nullable = false)
     private LocalDateTime startTimeWorking;
 
+    @Column(nullable = false)
     private LocalDateTime endTimeWorking;
 
     private LocalDateTime createAt;
