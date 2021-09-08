@@ -21,7 +21,7 @@ No diretório do projeto execute o seguinte comando no terminal:
 
 ##Documentação da API
 
-Com a API em execução, acesse `http://localhost:8080/swageer-ui/` para visualizar todos os endpoints com o modelo para requisição.
+Com a API em execução, acesse `http://localhost:8080/swagger-ui/` para visualizar todos os endpoints com o modelo para requisição.
 
 ## Autor:
 
