@@ -11,25 +11,26 @@ import dio.innovation.accessPointAPI.service.Utils.UserBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
 @DisplayName("Testes para o UserService")
 class UserServiceTest {
 
-    @Autowired
+    @InjectMocks
     private UserService userService;
 
     private final UserMapper userMapper = UserMapper.INSTANCE;
 
-    @MockBean
+    @Mock
     private UserRepository userRepository;
 
     @Test
@@ -94,6 +95,8 @@ class UserServiceTest {
     @Test
     @DisplayName("Retorna uma lista vazia de usuários.")
     void isShouldReturnListEmptyOfUsers() {
+        Mockito.when(userRepository.findAll()).thenReturn(Collections.emptyList());
+
         List<UserDTO> responseListUser = userService.listUser();
         Assertions.assertTrue(responseListUser.isEmpty());
     }
@@ -150,6 +153,8 @@ class UserServiceTest {
     @Test
     @DisplayName("Retorna a mensagem de usuário não encontrato no método deletar.")
     void isShouldReturnExceptionElementNotFoundToUserDelete() {
+        Mockito.doNothing().when(userRepository).deleteById(Mockito.anyLong());
+
         Assertions.assertThrows(ElementNotFoundException.class, () -> userService.deleteUser(1L));
     }
 }
